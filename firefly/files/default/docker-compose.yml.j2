@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+  app:
+    image: {{ firefly.lookup.containers.firefly.image }}
+    restart: unless-stopped
+    volumes:
+      - {{ firefly.lookup.paths.data or "firefly-data" }}:/var/www/html/storage/upload
+    env_file:
+      - firefly.env
+    ports:
+      - {{ firefly.host_port }}:8080
+    depends_on:
+      - db
+  db:
+    image: {{ firefly.lookup.containers.db.image }}
+    restart: unless-stopped
+    env_file:
+      - db.env
+    volumes:
+      - {{ firefly.lookup.paths.db or "firefly-db" }}:/var/lib/mysql
+
+{%- if not firefly.lookup.paths.data or not firefly.lookup.paths.db  %}
+
+volumes:
+{%-   if not firefly.lookup.paths.data %}
+  firefly-data:
+    name: firefly-data
+{%-   endif %}
+{%-   if not firefly.lookup.paths.db %}
+  firefly-db:
+    name: firefly-db
+{%-   endif %}
+{%- endif %}
