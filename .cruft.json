@@ -32,7 +32,8 @@
         },
         "paths": {
           "data": "data",
-          "db": "db"
+          "db": "db",
+          "export": "export"
         }
       },
       "_settings": {

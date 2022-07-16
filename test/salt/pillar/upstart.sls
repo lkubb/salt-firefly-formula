@@ -27,6 +27,7 @@ firefly:
       config_importer: importer.env
       data: data
       db: db
+      export: export
     user:
       groups: []
       home: null

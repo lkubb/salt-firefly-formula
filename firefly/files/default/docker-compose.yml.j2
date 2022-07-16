@@ -6,6 +6,7 @@ services:
     restart: unless-stopped
     volumes:
       - {{ firefly.lookup.paths.data or "firefly-data" }}:/var/www/html/storage/upload
+      - {{ firefly.lookup.paths.export or "firefly-export" }}:/var/www/html/storage/export
     env_file:
       - firefly.env
     ports:
@@ -20,7 +21,7 @@ services:
     volumes:
       - {{ firefly.lookup.paths.db or "firefly-db" }}:/var/lib/mysql
 
-{%- if not firefly.lookup.paths.data or not firefly.lookup.paths.db  %}
+{%- if not firefly.lookup.paths.data or not firefly.lookup.paths.db or not firefly.lookup.paths.export  %}
 
 volumes:
 {%-   if not firefly.lookup.paths.data %}
@@ -30,5 +31,9 @@ volumes:
 {%-   if not firefly.lookup.paths.db %}
   firefly-db:
     name: firefly-db
+{%-   endif %}
+{%-   if not firefly.lookup.paths.export %}
+  firefly-export:
+    name: firefly-export
 {%-   endif %}
 {%- endif %}
