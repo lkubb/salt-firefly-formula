@@ -22,6 +22,8 @@ Firefly III user session is initialized at boot:
   compose.lingering_managed:
     - name: {{ firefly.lookup.user.name }}
     - enable: {{ firefly.install.rootless }}
+    - require:
+      - user: {{ firefly.lookup.user.name }}
 
 Firefly III paths are present:
   file.directory:

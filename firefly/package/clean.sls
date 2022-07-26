@@ -33,6 +33,9 @@ Firefly III user session is not initialized at boot:
   compose.lingering_managed:
     - name: {{ firefly.lookup.user.name }}
     - enable: false
+    - onlyif:
+      - fun: user.info
+        name: {{ firefly.lookup.user.name }}
 
 Firefly III user account is absent:
   user.absent:
@@ -40,6 +43,9 @@ Firefly III user account is absent:
     - purge: {{ firefly.install.remove_all_data_for_sure }}
     - require:
       - Firefly III is absent
+    - retry:
+        attempts: 5
+        interval: 2
 
 {%- if firefly.install.remove_all_data_for_sure %}
 
