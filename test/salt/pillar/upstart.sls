@@ -46,6 +46,8 @@ firefly:
         image: docker.io/fireflyiii/core:latest
   install:
     rootless: true
+    autoupdate: true
+    autoupdate_service: false
     remove_all_data_for_sure: false
   config:
     allow_webhooks: false

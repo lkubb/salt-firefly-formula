@@ -8,6 +8,18 @@
 include:
   - {{ sls_config_clean }}
 
+{%- if firefly.install.autoupdate_service %}
+
+Podman autoupdate service is disabled for Firefly III:
+{%-   if firefly.install.rootless %}
+  compose.systemd_service_disabled:
+    - user: {{ firefly.lookup.user.name }}
+{%-   else %}
+  service.disabled:
+{%-   endif %}
+    - name: podman-auto-update.timer
+{%- endif %}
+
 Firefly III is absent:
   compose.removed:
     - name: {{ firefly.lookup.paths.compose }}

@@ -11,6 +11,10 @@ services:
       - firefly.env
     ports:
       - {{ firefly.host_port }}:8080
+{%- if firefly.install.autoupdate %}
+    labels:
+      - io.containers.autoupdate=registry
+{%- endif %}
     depends_on:
       - db
   db:
@@ -20,6 +24,10 @@ services:
       - db.env
     volumes:
       - {{ firefly.lookup.paths.db or "firefly-db" }}:/var/lib/mysql
+{%- if firefly.install.autoupdate %}
+    labels:
+      - io.containers.autoupdate=registry
+{%- endif %}
 
 {%- if not firefly.lookup.paths.data or not firefly.lookup.paths.db or not firefly.lookup.paths.export  %}
 
