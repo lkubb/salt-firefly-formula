@@ -16,5 +16,6 @@ Firefly III environment files are absent:
       - {{ firefly.lookup.paths.config_firefly }}
       - {{ firefly.lookup.paths.config_db }}
       - {{ firefly.lookup.paths.config_importer }}
+      - {{ firefly.lookup.paths.base | path_join(".saltcache.yml") }}
     - require:
       - sls: {{ sls_service_clean }}
