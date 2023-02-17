@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefly with context %}
 {%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
 
@@ -35,11 +34,28 @@ Firefly III paths are present:
     - require:
       - user: {{ firefly.lookup.user.name }}
 
+{%- if firefly.install.podman_api %}
+
+Firefly III podman API is enabled:
+  compose.systemd_service_enabled:
+    - name: podman
+    - user: {{ firefly.lookup.user.name }}
+    - require:
+      - Firefly III user session is initialized at boot
+
+Firefly III podman API is available:
+  compose.systemd_service_running:
+    - name: podman
+    - user: {{ firefly.lookup.user.name }}
+    - require:
+      - Firefly III user session is initialized at boot
+{%- endif %}
+
 Firefly III compose file is managed:
   file.managed:
     - name: {{ firefly.lookup.paths.compose }}
-    - source: {{ files_switch(['docker-compose.yml', 'docker-compose.yml.j2'],
-                              lookup='Firefly III compose file is present'
+    - source: {{ files_switch(["docker-compose.yml", "docker-compose.yml.j2"],
+                              lookup="Firefly III compose file is present"
                  )
               }}
     - mode: '0644'

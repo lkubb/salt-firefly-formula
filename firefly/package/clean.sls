@@ -1,8 +1,14 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- set sls_config_clean = tplroot ~ '.config.clean' %}
+{#-
+    Removes the firefly, db, importer containers
+    and the corresponding user account and service units.
+    Has a depency on `firefly.config.clean`_.
+    If ``remove_all_data_for_sure`` was set, also removes all data.
+#}
+
+{%- set tplroot = tpldir.split("/")[0] %}
+{%- set sls_config_clean = tplroot ~ ".config.clean" %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefly with context %}
 
 include:
@@ -40,6 +46,25 @@ Firefly III compose file is absent:
     - name: {{ firefly.lookup.paths.compose }}
     - require:
       - Firefly III is absent
+
+{%- if firefly.install.podman_api %}
+
+Firefly III podman API is unavailable:
+  compose.systemd_service_dead:
+    - name: podman
+    - user: {{ firefly.lookup.user.name }}
+    - onlyif:
+      - fun: user.info
+        name: {{ firefly.lookup.user.name }}
+
+Firefly III podman API is disabled:
+  compose.systemd_service_disabled:
+    - name: podman
+    - user: {{ firefly.lookup.user.name }}
+    - onlyif:
+      - fun: user.info
+        name: {{ firefly.lookup.user.name }}
+{%- endif %}
 
 Firefly III user session is not initialized at boot:
   compose.lingering_managed:
