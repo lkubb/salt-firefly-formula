@@ -38,14 +38,14 @@ Firefly III paths are present:
 
 Firefly III podman API is enabled:
   compose.systemd_service_enabled:
-    - name: podman
+    - name: podman.socket
     - user: {{ firefly.lookup.user.name }}
     - require:
       - Firefly III user session is initialized at boot
 
 Firefly III podman API is available:
   compose.systemd_service_running:
-    - name: podman
+    - name: podman.socket
     - user: {{ firefly.lookup.user.name }}
     - require:
       - Firefly III user session is initialized at boot

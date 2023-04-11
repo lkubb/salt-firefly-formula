@@ -51,7 +51,7 @@ Firefly III compose file is absent:
 
 Firefly III podman API is unavailable:
   compose.systemd_service_dead:
-    - name: podman
+    - name: podman.socket
     - user: {{ firefly.lookup.user.name }}
     - onlyif:
       - fun: user.info
@@ -59,7 +59,7 @@ Firefly III podman API is unavailable:
 
 Firefly III podman API is disabled:
   compose.systemd_service_disabled:
-    - name: podman
+    - name: podman.socket
     - user: {{ firefly.lookup.user.name }}
     - onlyif:
       - fun: user.info
