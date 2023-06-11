@@ -158,6 +158,11 @@ values:
     trusted_proxies: []
     tz: Etc/UTC
   host_port: 7143
+  tofs:
+    files_switch:
+      - id
+      - roles
+      - os_family
   # Just here for testing
   added_in_defaults: defaults_value
   winner: defaults

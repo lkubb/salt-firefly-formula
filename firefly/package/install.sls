@@ -2,7 +2,7 @@
 
 {%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefly with context %}
-{%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
+{%- from tplroot ~ "/libtofsstack.jinja" import files_switch with context %}
 
 Firefly III user account is present:
   user.present:
@@ -54,14 +54,16 @@ Firefly III podman API is available:
 Firefly III compose file is managed:
   file.managed:
     - name: {{ firefly.lookup.paths.compose }}
-    - source: {{ files_switch(["docker-compose.yml", "docker-compose.yml.j2"],
-                              lookup="Firefly III compose file is present"
+    - source: {{ files_switch(
+                    ["docker-compose.yml", "docker-compose.yml.j2"],
+                    config=firefly,
+                    lookup="Firefly III compose file is present",
                  )
               }}
     - mode: '0644'
     - user: root
     - group: {{ firefly.lookup.rootgroup }}
-    - makedirs: True
+    - makedirs: true
     - template: jinja
     - makedirs: true
     - context:
