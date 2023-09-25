@@ -34,3 +34,4 @@ Firefly III service is running:
 {%- endif %}
     - watch:
       - Firefly III is installed
+      - sls: {{ sls_config_file }}

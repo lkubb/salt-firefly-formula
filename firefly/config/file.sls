@@ -42,7 +42,7 @@ Firefly III environment files are managed:
     - template: jinja
     - require:
       - user: {{ firefly.lookup.user.name }}
-    - watch_in:
+    - require_in:
       - Firefly III is installed
     - context:
         firefly: {{ firefly | json }}
